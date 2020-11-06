@@ -71,6 +71,37 @@ let write_alist_mli w =
   Writer.write_line w "val by_filename : (string * string) list"
 ;;
 
+(* a wrapper around [Writer.with_file] that knows how to use a styler to transform what
+   gets written to the file. *)
+let with_file filename ~styler ~f =
+  Writer.with_file filename ~f:(fun w ->
+    match styler with
+    | None -> f w
+    | Some styler_path ->
+      let%bind styler_proc =
+        Process.create
+          ~prog:styler_path
+          ~args:[ "-"; "-original-file"; filename; "-directory-config"; "jbuild" ]
+          ()
+        >>| ok_exn
+      in
+      let styler_complete =
+        let%bind () = Reader.transfer (Process.stdout styler_proc) (Writer.pipe w)
+        and stderr = Process.stderr styler_proc |> Reader.contents
+        and exit_status = Process.wait styler_proc in
+        match exit_status with
+        | Ok () -> return ()
+        | Error status ->
+          Error.raise_s
+            [%message
+              "styler failed" (status : Unix.Exit_or_signal.error) (stderr : string)]
+      in
+      let styler_stdin = Process.stdin styler_proc in
+      let%bind () = f styler_stdin in
+      let%bind () = Writer.close styler_stdin in
+      styler_complete)
+;;
+
 let command =
   Command.async
     ~summary:"embed text files as ocaml strings"
@@ -78,6 +109,9 @@ let command =
       {|
 Generates ocaml code defining string constants containing the contents of the provided
 files.
+
+The argument [-styler] should be a path to the [apply-style] executable, or an executable
+with a very similar interface.
 |})
     (let open Command.Let_syntax in
      let%map_open module_name =
@@ -89,7 +123,8 @@ files.
          ~doc:"PATH where to put the generated module (default = cwd)"
      and with_alist =
        flag "with-alist" no_arg ~doc:"include an alist of file basename -> file contents"
-     and paths = anon (non_empty_sequence_as_list ("FILE" %: string)) in
+     and paths = anon (non_empty_sequence_as_list ("FILE" %: string))
+     and styler = flag "styler" (optional Filename.arg_type) ~doc:"FILE code styler" in
      fun () ->
        let open Deferred.Let_syntax in
        (* normalize module name *)
@@ -101,7 +136,7 @@ files.
        in
        let filename ext = output_directory ^/ String.lowercase module_name ^ "." ^ ext in
        let write ext ~write_file_line ~write_alist =
-         Writer.with_file (filename ext) ~f:(fun w ->
+         with_file (filename ext) ~styler ~f:(fun w ->
            let first_time = ref true in
            let%bind files =
              Deferred.List.map paths ~f:(fun path ->
