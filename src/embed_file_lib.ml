@@ -27,6 +27,8 @@ let chunks str =
     ]
 ;;
 
+(* We obfuscate "CR" in generated string constants to prevent them from ever triggering
+   code review. *)
 let replace_CRs : string -> string =
   (* [replace_CRs input] replaces all occurrences in [input] of "CR" with "C\082". *)
   let search_pattern = lazy (String.Search_pattern.create "CR") in
