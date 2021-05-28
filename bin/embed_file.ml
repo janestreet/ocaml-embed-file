@@ -1,3 +1,3 @@
-open Core
+open! Core
 
-let () = Command.run Embed_file_lib.command
+let () = Command_unix.run Embed_file_lib.command

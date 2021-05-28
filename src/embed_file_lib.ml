@@ -121,12 +121,14 @@ with a very similar interface.
      and output_directory =
        flag
          "output-dir"
-         (optional_with_default "." Filename.arg_type)
+         (optional_with_default "." Filename_unix.arg_type)
          ~doc:"PATH where to put the generated module (default = cwd)"
      and with_alist =
        flag "with-alist" no_arg ~doc:"include an alist of file basename -> file contents"
      and paths = anon (non_empty_sequence_as_list ("FILE" %: string))
-     and styler = flag "styler" (optional Filename.arg_type) ~doc:"FILE code styler" in
+     and styler =
+       flag "styler" (optional Filename_unix.arg_type) ~doc:"FILE code styler"
+     in
      fun () ->
        let open Deferred.Let_syntax in
        (* normalize module name *)
