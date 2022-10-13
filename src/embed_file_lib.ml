@@ -76,7 +76,7 @@ let write_alist_mli w =
 (* a wrapper around [Writer.with_file] that knows how to use a styler to transform what
    gets written to the file. *)
 let with_file filename ~styler ~f =
-  Writer.with_file filename ~f:(fun w ->
+  Writer.with_file_atomic filename ~f:(fun w ->
     match styler with
     | None -> f w
     | Some styler_path ->
