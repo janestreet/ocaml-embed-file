@@ -143,7 +143,7 @@ with a very similar interface.
          with_file (filename ext) ~styler ~f:(fun w ->
            let first_time = ref true in
            let%bind files =
-             Deferred.List.map paths ~f:(fun path ->
+             Deferred.List.map ~how:`Sequential paths ~f:(fun path ->
                if !first_time then first_time := false else Writer.newline w;
                let basename = Filename.basename path in
                let var = variable_name_of_file_name basename in
@@ -171,7 +171,9 @@ with a very similar interface.
            ~write_alist:(fun w ~files:_ -> write_alist_mli w)
        in
        Deferred.unit)
+    ~behave_nicely_in_pipeline:false
 ;;
+
 
 module Private = struct
   let variable_name_of_file_name = variable_name_of_file_name
