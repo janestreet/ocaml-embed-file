@@ -4,13 +4,13 @@ open! Async
 let variable_name_of_file_name s =
   String.to_list s
   |> List.mapi ~f:(fun i c ->
-    match c with
-    | '0' .. '9' -> if i = 0 then sprintf "_%c" c else String.of_char c
-    | 'A' .. 'Z' -> String.of_char (Char.lowercase c)
-    | 'a' .. 'z' | '_' -> String.of_char c
-    | '.' -> "_dot_"
-    | '-' -> "_"
-    | _ -> sprintf "_0x%x_" (Char.to_int c))
+       match c with
+       | '0' .. '9' -> if i = 0 then sprintf "_%c" c else String.of_char c
+       | 'A' .. 'Z' -> String.of_char (Char.lowercase c)
+       | 'a' .. 'z' | '_' -> String.of_char c
+       | '.' -> "_dot_"
+       | '-' -> "_"
+       | _ -> sprintf "_0x%x_" (Char.to_int c))
   |> String.concat
 ;;
 
@@ -173,7 +173,6 @@ with a very similar interface.
        Deferred.unit)
     ~behave_nicely_in_pipeline:false
 ;;
-
 
 module Private = struct
   let variable_name_of_file_name = variable_name_of_file_name
