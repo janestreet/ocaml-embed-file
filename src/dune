@@ -1,2 +1,5 @@
-(library (name embed_file_lib) (libraries async core core_unix.filename_unix)
- (preprocess (pps ppx_jane)))
+(library
+ (name embed_file_lib)
+ (libraries async core core_unix.filename_unix)
+ (preprocess
+  (pps ppx_jane)))
