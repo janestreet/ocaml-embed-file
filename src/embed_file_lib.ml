@@ -88,7 +88,7 @@ let with_file filename ~styler ~f =
         >>| ok_exn
       in
       let styler_complete =
-        let%bind () = Reader.transfer (Process.stdout styler_proc) (Writer.pipe w)
+        let%bind () = Writer.splice ~from:(Process.stdout styler_proc) w
         and stderr = Process.stderr styler_proc |> Reader.contents
         and exit_status = Process.wait styler_proc in
         match exit_status with
