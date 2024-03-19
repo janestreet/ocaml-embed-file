@@ -30,7 +30,7 @@ let%expect_test "lossless chunks 1" =
        efghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef
        ghijklmnopqrstuvwxyzabcdefghijklmnopqrst))
      (chunk_lengths (Equal Equal Equal Less)))
-  |}];
+    |}];
   return ()
 ;;
 
@@ -43,7 +43,7 @@ let%expect_test "lossless chunks 2" =
        cdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd
        efghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef))
      (chunk_lengths (Equal Equal Equal)))
-  |}];
+    |}];
   return ()
 ;;
 
@@ -57,7 +57,7 @@ let%expect_test "lossless chunks 3" =
        efghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef
        g))
      (chunk_lengths (Equal Equal Equal Less)))
-  |}];
+    |}];
   return ()
 ;;
 
@@ -70,7 +70,7 @@ let%expect_test "lossless chunks 4" =
        cdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd
        efghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcde))
      (chunk_lengths (Equal Equal Less)))
-  |}];
+    |}];
   return ()
 ;;
 
@@ -101,7 +101,7 @@ let%expect_test "ml output" =
        efghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdef\
        ghijklmnopqrstuvwxyzabcdefghijklmnopqrst"
     ;;
-  |}];
+    |}];
   return ()
 ;;
 
@@ -111,7 +111,7 @@ let%expect_test "ml output for empty input" =
     let foo =
       ""
     ;;
-  |}];
+    |}];
   return ()
 ;;
 
@@ -128,7 +128,7 @@ let%expect_test "ml output with spaces for input" =
       \                                                                                \
       \                                        "
     ;;
-  |}];
+    |}];
   return ()
 ;;
 
@@ -161,6 +161,6 @@ let%expect_test "ml output with a CR in the input" =
     let foo =
       "C\082"
     ;;
-  |}];
+    |}];
   return ()
 ;;
