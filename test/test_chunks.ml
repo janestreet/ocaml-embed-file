@@ -10,7 +10,7 @@ let test_chunks ~string_length =
   let str = generate_test_string ~string_length in
   let chunks = Embed_file_lib.chunks str in
   let str' = String.concat chunks in
-  require [%here] (String.equal str str');
+  require (String.equal str str');
   let chunk_lengths = List.map chunks ~f:String.length in
   let chunk_lengths =
     List.map chunk_lengths ~f:(fun chunk_len ->
@@ -107,7 +107,8 @@ let%expect_test "ml output" =
 
 let%expect_test "ml output for empty input" =
   let%bind () = test_output_ml "" in
-  [%expect {|
+  [%expect
+    {|
     let foo =
       ""
     ;;
@@ -135,7 +136,7 @@ let%expect_test "ml output with spaces for input" =
 let%expect_test "replace_CRs" =
   List.iter [ ""; "a"; "CR"; "XCR"; "CR-soon"; "CR-someday" ] ~f:(fun input ->
     let output = Embed_file_lib.replace_CRs input in
-    require_equal [%here] (module String) input (Scanf.unescaped output);
+    require_equal (module String) input (Scanf.unescaped output);
     printf " input: %s\noutput: %s\n" input output);
   [%expect
     {|
@@ -157,7 +158,8 @@ let%expect_test "replace_CRs" =
 
 let%expect_test "ml output with a CR in the input" =
   let%bind () = test_output_ml "CR" in
-  [%expect {|
+  [%expect
+    {|
     let foo =
       "C\082"
     ;;

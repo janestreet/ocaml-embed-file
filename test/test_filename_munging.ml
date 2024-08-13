@@ -27,7 +27,7 @@ let test ~print filename =
   let variable_name = Embed_file_lib.Private.variable_name_of_file_name filename in
   if valid_variable_name variable_name
   then (if print then print_endline variable_name)
-  else print_cr [%here] [%message (filename : string) (variable_name : string)]
+  else print_cr [%message (filename : string) (variable_name : string)]
 ;;
 
 let%expect_test "examples" =

@@ -28,11 +28,11 @@ body {
       let%bind () = Reader.file_contents "the_output.ml" >>| print_endline in
       [%expect
         {|
-         let test_file_dot_css =
-           "\nbody {\n  margin: 0;\n  /* \"Lorem ipsum dolor sit amet, consectetur adipiscing el\
-            it, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\" */\n}\n"
-         ;;
-         |}];
+        let test_file_dot_css =
+          "\nbody {\n  margin: 0;\n  /* \"Lorem ipsum dolor sit amet, consectetur adipiscing el\
+           it, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\" */\n}\n"
+        ;;
+        |}];
       let%bind () = Reader.file_contents "the_output.mli" >>| print_endline in
       [%expect {| val test_file_dot_css : string |}];
       return ())
