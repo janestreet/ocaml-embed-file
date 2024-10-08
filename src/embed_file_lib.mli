@@ -1,5 +1,5 @@
 open! Core
-open! Async
+open! Async_unix
 
 val chunk_len : int
 val chunks : string -> string list

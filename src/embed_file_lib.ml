@@ -1,5 +1,6 @@
 open! Core
-open! Async
+open! Async_kernel
+open! Async_unix
 
 let variable_name_of_file_name s =
   String.to_list s
@@ -105,7 +106,7 @@ let with_file filename ~styler ~f =
 ;;
 
 let command =
-  Command.async
+  Async_command.async
     ~summary:"embed text files as ocaml strings"
     ~readme:(fun () ->
       {|
