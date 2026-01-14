@@ -101,7 +101,10 @@ let with_file filename ~styler ~f =
       in
       let styler_stdin = Process.stdin styler_proc in
       let%bind () = f styler_stdin in
-      let%bind () = Writer.close styler_stdin in
+      (* We pass [~force_close:(Deferred.never ())] here, because otherwise [styler_stdin]
+         will be automatically closed after 5 seconds, even if everything hasn't been
+         flushed yet. This leads to the file being non-deterministically truncated. *)
+      let%bind () = Writer.close ~force_close:(Deferred.never ()) styler_stdin in
       styler_complete)
 ;;
 
