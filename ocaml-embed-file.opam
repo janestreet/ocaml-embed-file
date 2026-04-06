@@ -6,6 +6,7 @@ bug-reports: "https://github.com/janestreet/ocaml-embed-file/issues"
 dev-repo: "git+https://github.com/janestreet/ocaml-embed-file.git"
 doc: "https://ocaml.janestreet.com/ocaml-core/latest/doc/ocaml-embed-file/index.html"
 license: "MIT"
+x-maintenance-intent: ["(latest)"]
 build: [
   ["dune" "build" "-p" name "-j" jobs]
 ]
