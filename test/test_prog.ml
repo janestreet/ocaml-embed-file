@@ -20,7 +20,7 @@ body {
 |}
       in
       let%bind () =
-        Process.run_expect_no_output_exn
+        Process.run_expect_no_stdout_exn
           ~prog
           ~args:([ test_file ] @ [ "-output"; "the_output" ])
           ()
